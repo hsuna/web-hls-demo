@@ -1,0 +1,95 @@
+body{
+    min-width: 300px;
+}
+h1{
+    margin-top: 10px;
+    padding: 0 10px;
+    font-size: 30px;
+    line-height: 1.5;
+}
+h2{
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 26px;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+}
+p{
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.live-list {
+    margin: 0 20px;
+}
+.live-list .item{
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    width: 200px;
+    height: 200px;
+    background-image: url(/static//image/2603958873.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.live-list .item:hover{
+    filter: brightness(120%);
+}
+
+.live-list .item p{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 5px;
+    text-align: right;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.record-cont{
+    margin: 0 20px;
+}
+
+.record-cont input{
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #999;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 16px;
+}
+
+.record-cont button{
+    margin-bottom: 10px;
+    font-size: 16px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background-color: #0095ff;
+    color: #fff;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+.record-cont button:hover{
+    filter: brightness(120%);
+}
+
+
+@media only screen and (max-width:490px) {
+    .live-list .item{
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .record-cont input{
+        max-width: none;
+    }
+
+    .record-cont button{
+       float: right;
+    }
+}

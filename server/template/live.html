@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
+    <title>直播视频中</title>
+
+    <link rel="stylesheet" href="/static/css/reset.css" />
+    <link rel="stylesheet" href="/static/css/full.css" />
+    <link href="/static/js/videojs/video-js.min.css" rel="stylesheet">
+    <script src="/static/js/videojs/video.min.js"></script>
+    <script src="/static/js/videojs/videojs-contrib-hls.min.js"></script>
+    
+    <script src="//wd.ftegame.com/static/vconsole.min.js"></script>
+</head>
+<body>
+    <div class="video-cont">
+        <div class="title">
+            <a class="back" href="./index">返回</a>
+            <h2><span id="liveId"></span>-直播间</h2>
+        </div>
+        <!-- <video id="video" width="100%" height="100%" preload="auto" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint" x-webkit-airplay="true" webkit-playsinline="true" playsinline="true" autoplay>
+            <source src="/static/video/9527/playlist.m3u8" type="application/x-mpegURL">
+        </video> -->
+        <video id="video" class="video-js vjs-default-skin"
+            width="100%" 
+            height="100%"
+            preload="auto" 
+            x5-video-player-type="h5" 
+            x5-video-player-fullscreen="true" 
+            x5-video-orientation="portraint" 
+            x-webkit-airplay="allow" 
+            webkit-playsinline="true" 
+            playsinline="true"
+            controls
+            controlsList="nodownload" 
+            oncontextmenu="return false">
+            <source id="videoTarget" type="application/x-mpegURL">
+        </video>
+    </div>
+
+    <script>
+       (function(){
+            var id = getUrlParam('id');
+            var video = document.getElementById('video');
+            var videoTarget = document.getElementById('videoTarget');
+            var liveId = document.getElementById('liveId');
+            
+            liveId.innerHTML = id;
+
+            video.src = videoTarget.src = '/static/video/' + id + '/playlist.m3u8';
+
+            window.videojs('video', {}, function onPlayerReady () {
+                this.play()
+                this.on('ended', function () {
+                    console.log('ended, video js');
+                })
+            })
+          
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); // 构造一个含有目标参数的正则表达式对象
+                var r = window.location.search.substr(1).match(reg);  // 匹配目标参数
+                if (r != null) return unescape(r[2]); return null; // 返回参数值
+            }
+        })();
+    </script>
+</body>
+</html>

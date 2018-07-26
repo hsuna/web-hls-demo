@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
+        <title>视频直播</title>
+        <link rel="stylesheet" href="/static/css/reset.css" />
+        <link rel="stylesheet" href="/static/css/index.css" />
+    </head>
+    <body>
+        <h1>视频直播-Demo</h1>
+        <h2>直播间</h2>
+        <div class="live-list">{{live-list}}</div>
+        <h2>录制厅</h2>
+        <div class="record-cont">
+            <input id="recordInput" type="number" placeholder="输入主播ID"/>
+            <button id="recordBtn" class="recordBtn">进入录制厅</button>
+        </div>
+
+        <script>
+            (function(){
+                document.getElementById('recordBtn').onclick = function(){
+                    var recordInput = document.getElementById('recordInput');
+                    if(recordInput.value && '' != recordInput.value){
+                        if(/^[\d]*$/.test(recordInput.value)){
+                            window.location.href = './record?id='+recordInput.value;
+                        }else{
+                            alert('主播ID必须为纯数字');
+                        }
+                    }else{
+                        alert('主播ID不能为空');
+                    }
+                }
+            })();
+        </script>
+    </body>
+</html>

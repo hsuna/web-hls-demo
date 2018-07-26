@@ -1,0 +1,44 @@
+.video-cont{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+.title{
+    position: relative;
+    z-index: 99;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.title h2{
+    font-size: 26px;
+    line-height: 26px;
+    padding: 0 60px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.title .back{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    line-height: 26px;
+    font-size: 26px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.video-js.video-dimensions{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+}

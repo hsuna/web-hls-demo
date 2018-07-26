@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
+    <title>录制视频中</title>
+
+    <link rel="stylesheet" href="/static/css/reset.css" />
+    <link rel="stylesheet" href="/static/css/full.css" />
+    <script src="/static/js/RecordRTC/RecordRTC.js"></script>
+    <script src="//wd.ftegame.com/static/vconsole.min.js"></script>
+
+</head>
+
+<body>
+    <div class="video-cont">
+        <div class="title">
+            <a class="back" href="./index">返回</a>
+            <h2><span id="liveId"></span>-录制厅</h2>
+        </div>
+        <!-- <video id="video" width="100%" height="100%" preload="auto" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint" x-webkit-airplay="true" webkit-playsinline="true" playsinline="true" autoplay></video> -->
+        <video id="video" 
+            width="100%" 
+            height="100%" 
+            preload="auto" 
+            controls="controls"
+            x5-video-player-type="h5" 
+            x5-video-player-fullscreen="true" 
+            x5-video-orientation="portraint"
+            x-webkit-airplay="true" 
+            webkit-playsinline="true" 
+            playsinline="true">
+        </video>
+    </div>
+</body>
+<script type="text/javascript">
+    var id = getUrlParam('id');
+    var video = document.getElementById('video');
+    var liveId = document.getElementById('liveId');
+    
+    liveId.innerHTML = id;
+
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); // 构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  // 匹配目标参数
+        if (r != null) return unescape(r[2]); return null; // 返回参数值
+    }
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: {
+                facingMode: 'user' // 优先调用前置摄像头
+                /* facingMode: {
+                    exact: "environment"
+                } //后置 */
+            }
+        }).then(getVideoStream).catch(getFail);
+    } else if (navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia) {
+        navigator.getUserMedia({
+            'video': true,
+            'audio': true
+        }, getVideoStream, getFail);
+    }
+
+    function getVideoStream(stream) {
+        if ('srcObject' in video) {
+            video.srcObject = stream;
+        } else {
+            video[!!navigator.mozGetUserMedia ? 'mozSrcObject' : 'src'] = !!navigator.mozGetUserMedia ? mediaStream : window[!!window.URL ? 'URL' : 'webkitURL'].createObjectURL(stream);
+        }
+        video.play();
+        
+        var recorder = new RecordRTC(stream, {
+            mimeType: 'video/webm',
+            bitsPerSecond: 128000
+        });
+        
+        setInterval(function(init){
+            recorder.stopRecording(function(videoURL){
+                dataAvailable(recorder.getBlob());
+            });
+            recorder.startRecording();
+        }, 10 * 1000);
+
+        recorder.startRecording();
+    }
+
+    function dataAvailable(blob) {
+        // create FormData
+        var formData = new FormData();
+        formData.append('blob', blob);
+        console.log(blob, id);
+       // makeXMLHttpRequest('/upload/'+id, formData, function () {});
+    }
+
+    function getFail(error) {
+        console.error(error);
+    }
+
+
+    function makeXMLHttpRequest(url, data, callback) {
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                callback();
+            }
+        };
+        request.open('POST', url);
+        request.send(data);
+    }
+
+    /* navigator.getUserMedia = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia; //获取媒体对象（这里指摄像头）
+    navigator.getUserMedia({
+        video: true
+    }, gotStream, noStream); //参数1获取用户打开权限；参数二成功打开后调用，并传一个视频流对象，参数三打开失败后调用，传错误信息
+ 
+    function gotStream(stream) {
+        video.src = window[window.webkitURL ? 'webkitURL' : 'URL'].createObjectURL(stream);
+        video.onerror = function() {
+            stream.stop();
+        };
+        stream.onended = noStream;
+        video.onloadedmetadata = function() {
+            console.log('摄像头成功打开！');
+        };
+    }
+ 
+    function noStream(err) {
+        console.log(err);
+    }
+ 
+    document.getElementById("snap").addEventListener("click", function() {
+        ctx.drawImage(aVideo, 0, 0, 640, 480); //将获取视频绘制在画布上
+    }); */
+</script>
+
+</html>

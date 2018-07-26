@@ -83,7 +83,7 @@
                 dataAvailable(recorder.getBlob());
             });
             recorder.startRecording();
-        }, 10 * 1000);
+        }, 24 * 1000);
 
         recorder.startRecording();
     }
@@ -93,7 +93,7 @@
         var formData = new FormData();
         formData.append('blob', blob);
         console.log(blob, id);
-       // makeXMLHttpRequest('/upload/'+id, formData, function () {});
+        makeXMLHttpRequest('/upload/'+id, formData, function () {});
     }
 
     function getFail(error) {
